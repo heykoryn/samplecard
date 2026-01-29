@@ -10,7 +10,7 @@
       --zone-left: 14.95%;
       --zone-top: 73.00%;
       --zone-width: 70.10%;
-      --zone-height: 17.00%;
+      --zone-height: 22.00%;
     }
 
     body{
@@ -112,9 +112,9 @@
     const audio = document.getElementById('revealAudio');
 
     // Controls
-    const BRUSH_RADIUS = 26;          // scratch "coin" size
-    const REVEAL_THRESHOLD = 0.72;    // 0.72 = 72% cleared to trigger audio
-    const CHECK_EVERY_N_STROKES = 12; // performance: how often to measure cleared %
+    const BRUSH_RADIUS = 30;          // scratch "coin" size
+    const REVEAL_THRESHOLD = 0.55;    // 0.55 = 55% cleared to trigger audio
+    const CHECK_EVERY_N_STROKES = 8; // performance: how often to measure cleared %
 
     let isDrawing = false;
     let revealed = false;
@@ -182,14 +182,15 @@
       };
     }
 
-    function scratchAt(x, y){
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.beginPath();
-      ctx.arc(x, y, BRUSH_RADIUS, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.globalCompositeOperation = 'source-over';
-    }
-
+function scratchAt(x, y){
+  ctx.globalCompositeOperation = 'destination-out';
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.beginPath();
+  ctx.arc(x, y, BRUSH_RADIUS, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.globalCompositeOperation = 'source-over';
+}
     function percentCleared(){
       // Reads alpha channel: scratched areas become transparent (alpha ~0)
       const w = canvas.width;
